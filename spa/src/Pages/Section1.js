@@ -1,29 +1,32 @@
 import React, { useState } from "react";
+import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 function Section_1(){
-    const [qToShow, setQToShow] = useState(null);
-    const [qOneAnswer, setQOneAnswer] = useState(null);
-    const [qTwoAnswer, setQTwoAnswer] = useState(null);
-    const [qThreeAnswer, setQThreeAnswer] = useState(null);
+    const [qOneAnswer, setQOneAnswer] = useState(0);
+    const [qTwoAnswer, setQTwoAnswer] = useState("");
+    const [qThreeAnswer, setQThreeAnswer] = useState("");
     const navigate = useNavigate();
     function handleClick(e)
     {
         let id = e.target.id;
         if(id ==="answer_one")
         {
-            setQToShow(3);
+            
             setQOneAnswer(1);
+            setQThreeAnswer("")
             
         }
         else if (id ==="answer_two")
         {
-            setQToShow(2);
+
             setQOneAnswer(2);
+            setQTwoAnswer("")
         }
         else if (id ==="answer_three")
         {
-            setQToShow(1);
             setQOneAnswer(3);
+            setQTwoAnswer("")
+            setQThreeAnswer("")
             
         }
     };
@@ -45,23 +48,38 @@ function Section_1(){
     
     return (
     <div>
-    <h1>Section 1</h1>
-    <p>1.Is your business model B2C or B2B or both?</p>
-    <button id="answer_one" onClick={handleClick}>A.B2C</button>
-    <button id="answer_two" onClick={handleClick}>B.B2B</button>
-    <button id="answer_three" onClick={handleClick}>C.both</button>
+     <h1>Section 1</h1>
+     <p>1.Is your business model B2C or B2B or both?</p>
+     <Button variant="contained" style={{marginLeft:"30px", backgroundColor:qOneAnswer===1?"#00ccff":"#1976d2"}} id="answer_one" onClick={handleClick}>A.B2C</Button>
+     <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qOneAnswer===2?"#00ccff":"#1976d2"}} id="answer_two" onClick={handleClick}>B.B2B</Button>
+     <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qOneAnswer===3?"#00ccff":"#1976d2"}} id="answer_three" onClick={handleClick}>C.both</Button>
 
-    {qToShow===2 || qToShow===1? <div><p>2.Do you target all age brackets?</p>
-    <button  id="answer_one"  onClick={() => setQTwoAnswer(1)}>A.yes</button>
-    <button  id="answer_two"  onClick={() => setQTwoAnswer(2)}>B.no</button>
-    </div>:null}
+     {qOneAnswer===2 ? 
+     <div>
+        <p>2.Do you target all age brackets?</p>
+        <Button variant="contained" style={{marginLeft:"30px", backgroundColor:qTwoAnswer==="yes"?"#00ccff":"#1976d2"}} id="answer_one"  onClick={() => setQTwoAnswer("yes")}>A.yes</Button>
+        <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qTwoAnswer==="no"?"#00ccff":"#1976d2"}} id="answer_two"  onClick={() => setQTwoAnswer("no")}>B.no</Button>
+     </div>:null}
 
-    {qToShow===3 || qToShow===1? <div><p>3.Do you target all industries?</p>
-    <button id="answer_one"  onClick={() => setQThreeAnswer("yes")}>A.yes</button>
-    <button id="answer_two"  onClick={() => setQThreeAnswer("no")}>B.no</button>
-    </div>:null}
-    <button style={{marginTop:"30px"}} onClick={handleClickOfNext}>Next</button>
-    
+     {qOneAnswer===1 ? 
+     <div>
+        <p>2.Do you target all industries?</p>
+        <Button variant="contained" style={{marginLeft:"30px", backgroundColor:qThreeAnswer==="yes"?"#00ccff":"#1976d2"}} id="answer_one"  onClick={() => setQThreeAnswer("yes")}>A.yes</Button>
+        <Button variant="contained" style={{marginLeft:"30px", backgroundColor:qThreeAnswer==="no"?"#00ccff":"#1976d2"}} id="answer_two"  onClick={() => setQThreeAnswer("no")}>B.no</Button>
+     </div>:null}
+
+     {qOneAnswer===3 ?
+     <div>
+        <p>2.Do you target all age brackets?</p>
+        <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qTwoAnswer==="yes"?"#00ccff":"#1976d2"}} id="answer_one"  onClick={() => setQTwoAnswer("yes")}>A.yes</Button>
+        <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qTwoAnswer==="no"?"#00ccff":"#1976d2"}} id="answer_two"  onClick={() => setQTwoAnswer("no")}>B.no</Button>
+        <p>3.Do you target all industries?</p>
+        <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qThreeAnswer==="yes"?"#00ccff":"#1976d2"}} id="answer_one"  onClick={() => setQThreeAnswer("yes")}>A.yes</Button>
+        <Button variant="contained" style={{marginLeft:"30px",backgroundColor:qThreeAnswer==="no"?"#00ccff":"#1976d2"}} id="answer_two"  onClick={() => setQThreeAnswer("no")}>B.no</Button>
+     </div>:null}
+
+     {(qOneAnswer===1 && qThreeAnswer) || (qOneAnswer===2 && qTwoAnswer) || (qOneAnswer===3 && qThreeAnswer && qTwoAnswer)?
+        <Button variant="contained" style={{marginTop:"30px"}} onClick={handleClickOfNext}>Next</Button>:null}
     </div>)
 }
 export default Section_1;
